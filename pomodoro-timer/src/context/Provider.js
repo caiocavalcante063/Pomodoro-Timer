@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Context from './Context';
 
 function Provider({ children }) {
-  const [time, setTime] = useState('25:00');
+  const [time, setTime] = useState('00:15');
   const [startStopBtn, setStartStopBtn] = useState(false);
 
   const contextValues = { 

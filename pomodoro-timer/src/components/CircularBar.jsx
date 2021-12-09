@@ -6,24 +6,38 @@ import StartStopBtn from './StartStopBtn';
 
 function CircularBar() {
   const { time, setTime } = useContext(Context);
-  const [timeInSeconds, setTimeInSeconds] = useState(0);
+  const [totalTimeInSeconds, setTotalTimeInSeconds] = useState(0);
+  const [updateTimeInSeconds, setUpdateTimeInSeconds] = useState(0)
 
   useEffect(() => { 
     const timeConverter = () => {
       const convertedSeconds = Number(time.split(':')[1]);
       const convertedMinutes = (Number(time.split(':')[0]) * 60);
-      setTimeInSeconds(convertedSeconds + convertedMinutes);
+      setTotalTimeInSeconds(convertedSeconds + convertedMinutes);
     }
     
     timeConverter() 
   }, [time]);
 
+  useEffect(() => {
+    const ONE_SECOND = 1000;
+    let timeLeftInSeconds = totalTimeInSeconds;
+    const timeInterval = setInterval(() => { 
+      if (totalTimeInSeconds !== 0 && timeLeftInSeconds >= 1) {
+        timeLeftInSeconds -= 1;
+        setUpdateTimeInSeconds(timeLeftInSeconds);
+      } else {
+        clearInterval(timeInterval);
+      }
+    }, ONE_SECOND)
+  }, [totalTimeInSeconds])
+
   return (
     <>
       <div className="circular-bar-container">
         <CircularProgressbar
-          value={1300}
-          maxValue={timeInSeconds}
+          value={updateTimeInSeconds}
+          maxValue={totalTimeInSeconds}
           text={`${time}`}
         />
       </div>
