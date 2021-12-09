@@ -19,6 +19,12 @@ function CircularBar() {
     timeConverter() 
   }, [time]);
 
+  const timeFormater = (timeInSeconds) => {
+    const formatedTime = `${Math.floor(timeInSeconds / 60)}:${timeInSeconds % 60}`
+    setTime(formatedTime);
+    console.log(time);
+  }
+
   useEffect(() => {
     const ONE_SECOND = 1000;
     let timeLeftInSeconds = totalTimeInSeconds;
@@ -30,7 +36,12 @@ function CircularBar() {
         clearInterval(timeInterval);
       }
     }, ONE_SECOND)
-  }, [totalTimeInSeconds])
+  }, [totalTimeInSeconds]);
+
+  useEffect(() => { 
+    timeFormater(updateTimeInSeconds)
+    console.log(updateTimeInSeconds);
+   }, [updateTimeInSeconds]);
 
   return (
     <>
@@ -41,7 +52,7 @@ function CircularBar() {
           text={`${time}`}
         />
       </div>
-      <StartStopBtn />
+      {/* <StartStopBtn /> */}
     </>
   )
 }
